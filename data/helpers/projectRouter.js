@@ -92,11 +92,49 @@ router.post("/:id/actions", validateProjectId, validateAction, (req, res) => {
 })
 
 router.delete("/:id", validateProjectId, (req, res) => {
+    const { id } = req.params;
 
+    Projects.remove(id)
+            .then(count => {
+                if(count){
+                    res.status(204).end()
+                }else{
+                    res.status(404).json({ message: "The project with the specified id was not found" })
+                }
+            })
+            .catch(error => {
+                console.log({ error })
+                res.status(500).json({ message: "Error deleting project with the specified id" })
+            })
 })
 
 router.put("/:id", validateProjectId, validateProject, (req, res) => {
+    const { id } = req.params;
+    const { name, description } = req.body;
 
+    Projects.update(id, { name, description })
+            .then(user => {
+                if(user){
+                    Projects.get(id)
+                            .then(updatedProject => {
+                                if(updatedProject){
+                                    res.status(200).json(updatedProject)
+                                }else{
+                                    res.status(404).json({ message: "Updated project can not be found" })
+                                }
+                            })
+                            .catch(error => {
+                                console.log({ error })
+                                res.status(500).json({ message: "Error in finding updated project" })
+                            })
+                }else{
+                    res.status(404).json({ message: "Project with specified id can not be found" })
+                }
+            })
+            .catch(error => {
+                console.log({ error })
+                res.status(500).json({ message: "Error updating the project with specified id" })
+            })
 })
 
 //Custom Middleware
