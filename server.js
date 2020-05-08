@@ -1,10 +1,12 @@
 const express = require("express");
 const projectRouter = require("./data/helpers/projectRouter");
 const actionRouter = require("./data/helpers/actionRouter");
+const cors = require("cors");
 
 const server = express();
 
 server.use(express.json());
+server.use(cors());
 
 server.get("/", logger, (req, res) => {
     res.send(`<h2>Let's write some middleware!</h2>`)
