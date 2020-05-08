@@ -9,7 +9,8 @@ const UserCard = props => {
     const { id } = useParams();
     const { push } = useHistory();
     const initialState = {
-        name: ""
+        name: "",
+        description: ""
     }
     const [isEditing, setIsEditing] = useState(false);
     const [editInputs, setEditInputs] = useState(initialState);
@@ -19,7 +20,7 @@ const UserCard = props => {
         axios.get(`http://localhost:8000/api/projects/${userId}`)
              .then(res => {
                 //  console.log({ res })
-                 setUser({name: res.data.name})
+                 setUser({name: res.data.name, description: res.data.description})
              })
              .catch(err => {
                  console.log({ err })
@@ -36,7 +37,7 @@ const UserCard = props => {
         axios.get(`http://localhost:8000/api/projects/${id}`)
              .then(res => {
                 //  console.log({ res })
-                 setEditInputs({name: res.data.name})
+                 setEditInputs({name: res.data.name, description: res.data.description})
              })
     }
 
@@ -81,6 +82,7 @@ const UserCard = props => {
             <button onClick={() => {push("/")}} >HOME</button>
             <div>
                 <h2>Hello, I am {user.name}</h2>
+                <h3>{user.description}</h3>
                 <button onClick={setEdit} >Edit User</button>
                 <button onClick={handleDelete} >Delete User</button>
             </div>
@@ -90,6 +92,13 @@ const UserCard = props => {
                                   type="text"
                                   placeholder="Name"
                                   value={editInputs.name}
+                                  onChange={handleChange}
+                              />
+                              <input 
+                                  name="description"
+                                  type="text"
+                                  placeholder="Description"
+                                  value={editInputs.description}
                                   onChange={handleChange}
                               />
                               <button>Edit User</button>

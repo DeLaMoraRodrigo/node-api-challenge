@@ -3,7 +3,7 @@ import axios from "axios";
 
 const PostCard = props => {
     const { post, posts, setPosts } = props;
-    const initialState = { text: ""}
+    const initialState = { description: "", notes: ""}
     const [postEditing, setPostEditing]  = useState(false);
     const [postInputs, setPostInputs] = useState(initialState);
 
@@ -14,7 +14,7 @@ const PostCard = props => {
         axios.get(`http://localhost:8000/api/actions/${post.id}`)
              .then(res => {
                  console.log("PostById", res)
-                 setPostInputs({text: res.data.text});
+                 setPostInputs({description: res.data.description, notes: res.data.notes});
              })
              .catch(err => {
                  console.log({ err })
@@ -60,16 +60,24 @@ const PostCard = props => {
     return(
         <>
             <div>
-                <h3>{post.text}</h3>
+                <h3>{post.description}</h3>
+                <h4>{post.notes}</h4>
                 <button onClick={setEditing} >Edit Post</button>
                 <button onClick={handleDelete} >Delete Post</button>
             </div>
             {postEditing && <form onSubmit={handleEdit} >
                               <input 
-                                  name="text"
+                                  name="description"
                                   type="text"
-                                  placeholder="Text"
-                                  value={postInputs.text}
+                                  placeholder="Description"
+                                  value={postInputs.description}
+                                  onChange={handleChange}
+                              />
+                              <input 
+                                  name="notes"
+                                  type="text"
+                                  placeholder="Notes"
+                                  value={postInputs.notes}
                                   onChange={handleChange}
                               />
                               <button>Edit Post</button>

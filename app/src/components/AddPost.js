@@ -6,7 +6,8 @@ const AddPost = props => {
     const { posts, setPosts } = props;
     const { id } = useParams();
     const initialState = {
-        text: ""
+        description: "",
+        notes: ""
     }
     const [addInputs, setAddInputs] = useState(initialState);
 
@@ -37,10 +38,17 @@ const AddPost = props => {
     return(
         <form onSubmit={handleSubmit} >
             <input 
-                name="text"
+                name="description"
                 type="text"
-                placeholder="Text"
-                value={addInputs.text}
+                placeholder="Description"
+                value={addInputs.description}
+                onChange={handleChange}
+            />
+            <input 
+                name="notes"
+                type="text"
+                placeholder="Notes"
+                value={addInputs.notes}
                 onChange={handleChange}
             />
             <button>Add Post</button>

@@ -4,7 +4,8 @@ import axios from "axios";
 const AddUser = props => {
     const { users, setUsers } = props;
     const initialState = {
-        name: ""
+        name: "",
+        description: ""
     }
     const [addInputs, setAddInputs] = useState(initialState)
 
@@ -39,6 +40,13 @@ const AddUser = props => {
                 type="text"
                 placeholder="Name"
                 value={addInputs.name}
+                onChange={handleChange}
+            />
+            <input 
+                name="description"
+                type="text"
+                placeholder="description"
+                value={addInputs.description}
                 onChange={handleChange}
             />
             <button>Add User</button>
